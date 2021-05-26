@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <title>Manavım</title>
+  <title>Manav</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,21 +9,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        /* Bordered form */
-form {
-  border: 3px solid #f1f1f1;
-}
-
-/* Full-width inputs */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-}
-
 /* Set a style for all buttons */
 button {
   background-color: #04AA6D;
@@ -40,91 +25,131 @@ button:hover {
   opacity: 0.8;
 }
 
-/* Extra style for the cancel button (red) */
-.cancelbtn {
-  width: auto;
-  padding: 10px 18px;
-  background-color: #f44336;
-}
 
-/* Center the avatar image inside this container */
-.imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
-}
-
-/* Avatar image */
-img.avatar {
-  border-radius: 50%;
-}
 
 /* Add padding to containers */
 .container {
   padding: 16px;
 }
 
-/* The "Forgot password" text */
-span.psw {
-  float: right;
-  padding-top: 16px;
-}
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-    display: block;
-    float: none;
-  }
-  .cancelbtn {
-    width: 100%;
-  }
-}
+
     </style>
+
 </head>
 <body>
 
-<form action="/uruntanimla" method="post" enctype="multipart/form-data">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
 
-  <div class="container">
-    <label for="_id"><b>Ürün No</b></label>
-    <input type="text" placeholder="Ürün No" id="_id" name="_id" required>
+<!-- Links -->
+  <ul class="navbar-nav">
+      <!-- Navbar text-->
+    <li class="nav-item">
+      <a class="nav-link" href="/">Manavım</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/sebzeler">Sebzeler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/meyveler">Meyveler</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" href="/kategori/yesillikler">Yeşillikler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/sepet">Sepet</a>
+    </li>
+    {% if kullanici['rol'] == 'yonetici' %}
+    <li class="nav-item">
+      <a class="nav-link active" href="/uruntanimla">Ürün Tanımla</a>
+    </li>
+    {% endif %}
 
+
+  </ul>
+  {% if kullanici %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/cikis"> Merhaba {{kullanici['ad']}} - Çıkış yap</a>
+    </li>
+  </ul>
+  {% else %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/giris"> Kullanıcı Girişi</a>
+    </li>
+  </ul>
+  {% endif %}
+</nav>
+
+
+<div class="container">
+  <form action="/uruntanimla" method="post" enctype="multipart/form-data">
+
+
+    <h1>Ürün Tanımlama</h1>
+
+
+  <div class="form-row">
+    <div class="col form-group">
+    <label for="_id"><b>Ürün Kodu</b></label>
+    <input type="text" class="form-control" placeholder="Ürün Kodu" id="_id" name="_id" required>
+    </div>
+    <div class="col form-group">
     <label for="ad"><b>Ad</b></label>
-    <input type="text" placeholder="Ad" id="ad" name="ad" required>
-
+    <input type="text" class="form-control" placeholder="Ad" id="ad" name="ad" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col form-group">
     <label for="aciklama"><b>Açıklama</b></label>
-    <input type="text" placeholder="Ad" id="aciklama" name="aciklama" required>
-
+    <input type="text" class="form-control" placeholder="Açıklama" id="aciklama" name="aciklama" required>
+    </div>
+    <div class="col form-group">
     <label for="fiyat"><b>Fiyat</b></label>
-    <input type="text" placeholder="Fiyat" id="fiyat" name="fiyat" required>
-
+    <input type="text" class="form-control" placeholder="Fiyat" id="fiyat" name="fiyat" required>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col form-group">
     <label for="stok"><b>Stok</b></label>
-    <input type="text" placeholder="Stok" id="stok" name="stok" required>
-
+    <input type="text" class="form-control" placeholder="Stok" id="stok" name="stok" required>
+    </div>
+    <div class="col form-group">
     <label for="stok_birim"><b>Stok Birimi</b></label>
-    <input type="text" placeholder="Stok Birimi" id="stok_birim" name="stok_birim" required>
+    <input type="text" class="form-control" placeholder="Stok Birimi" id="stok_birim" name="stok_birim" required>
+    </div>
 
-
-      <label for="kategori"><b>Kategori</b></label>
+  </div>
+  <div class="form-row">
+    <div class="col form-group">
+    <label for="kategori"><b>Kategori</b></label>
     <select class="form-control" id="kategori" name="kategori">
         <option value="meyveler" selected>Meyveler</option>
         <option value="sebzeler">Sebzeler</option>
         <option value="yesillikler">Yeşillikler</option>
     </select>
-
-      <label for="etiket"><b>Etiket</b></label>
+    </div>
+    <div class="col form-group">
+    <label for="etiket"><b>Etiket</b></label>
     <select class="form-control" id="etiket" name="etiket">
         <option value="onerilen" selected>Önerilenler</option>
         <option value="indirim">İndirimdekiler</option>
     </select>
+    </div>
 
-      <label for="fotograf"><b>Fotoğraf</b></label>
-      <input type="file" id="fotograf" name="fotograf" class="form-control-file border">
-
-    <button type="submit">Ürünü Kaydet</button>
+  </div>
+  <div class="form-row">
   </div>
 
-</form>
+    <div class="form-group">
+      <label for="fotograf"><b>Fotoğraf</b></label>
+      <input type="file" id="fotograf" name="fotograf" class="form-control-file border">
+    </div>
+    <button type="submit">Ürünü Kaydet</button>
 
+
+  </form>
+</div>
 </body>
 </html>

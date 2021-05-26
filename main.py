@@ -48,10 +48,15 @@ def cikis():
     session.clear()
     return redirect("/", code=302)
 
+
 @app.route('/kategori/<kategori>')
 def kategori_goster(kategori):
+    kullanici = None
+    if 'kullanici' in session:
+        kullanici = session["kullanici"]
+
     kategori_urunleri = urunler_tablosu.find({"kategori": kategori})
-    return render_template("kategori.html", urunler=kategori_urunleri)
+    return render_template("kategori.html", kullanici=kullanici,kategori=kategori, urunler=kategori_urunleri)
 
 
 @app.route('/sepeteekle', methods=['POST'])
@@ -116,7 +121,11 @@ def urun_tanimla():
         kaydedilmis_urun = urunler_tablosu.insert_one(kayit)
         return "Ürün Kaydedildi"
     else:
-        return render_template("uruntanimla.html")
+        if 'kullanici' not in session:
+            return redirect("/giris", code=302)
+        else:
+            kullanici = session["kullanici"]
+        return render_template("uruntanimla.html", kullanici=kullanici)
 
 
 if __name__ == "__main__":

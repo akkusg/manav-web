@@ -20,23 +20,31 @@
       <a class="nav-link" href="/">Manavım</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/kategori/sebzeler">Sebzeler</a>
+      <a class="nav-link {{'active' if kategori == 'sebzeler' }}" href="/kategori/sebzeler">Sebzeler</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/kategori/meyveler">Meyveler</a>
+      <a class="nav-link {{'active' if kategori == 'meyveler' }}" href="/kategori/meyveler">Meyveler</a>
     </li>
       <li class="nav-item">
-      <a class="nav-link" href="/kategori/yesillikler">Yeşillikler</a>
+      <a class="nav-link {{'active' if kategori == 'yesillikler' }}" href="/kategori/yesillikler">Yeşillikler</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/sepet">Sepet</a>
     </li>
   </ul>
+  {% if kullanici %}
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" href="/cikis"> Merhaba {{kullanici}} - Çıkış yap</a>
+      <a class="nav-link" href="/cikis"> Merhaba {{kullanici['ad']}} - Çıkış yap</a>
     </li>
   </ul>
+  {% else %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/giris"> Kullanıcı Girişi</a>
+    </li>
+  </ul>
+  {% endif %}
 
 </nav>
 
@@ -49,27 +57,63 @@
 
   <h1>Kategorideki Ürünler</h1>
 
-  <div class="card-columns">
+  <div class="row wow fadeIn">
 
   {%for urun in urunler%}
-  <div class="card" style="width:300px">
-    <img class="card-img-top" style="height:220px" src='{{urun["fotograf"]}}' alt="Ürün">
-    <div class="card-body">
-      <h4 class="card-title">{{urun["ad"]}}</h4>
-      <p class="card-text"><b>{{urun["aciklama"]}}</b></p>
-      <p class="card-text">Stok durumu: {{urun["stok"]}} {{urun["stok_birim"]}}</p>
-      <p>Fiyat: {{urun["fiyat"]}}₺ </p>
-      <form action="/sepeteekle" method="post">
+
+    <div class="col-lg-3 col-md-6 mb-4">
+            <!--Card-->
+            <div class="card">
+
+              <!--Card image-->
+              <div class="view overlay">
+                <img src='{{urun["fotograf"]}}' class="card-img-top" style="height:280px;width:320px" alt="">
+                <a>
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <!--Card image-->
+
+              <!--Card content-->
+              <div class="card-body text-center">
+                <!--Category & Title-->
+                <h5>
+                  <strong>
+                    <span class="dark-grey-text">
+                      {{urun["ad"]}}
+                    </span>
+                  </strong>
+                </h5>
+                <span class="grey-text">
+                  <h5>{{urun["aciklama"]}}</h5>
+                </span>
+
+
+                <p class="card-text">Stok durumu: {{urun["stok"]}} {{urun["stok_birim"]}}</p>
+
+                <h4 class="font-weight-bold blue-text">
+                  <strong>{{urun["fiyat"]}}₺</strong>
+                </h4>
+
+                <form action="/sepeteekle" method="post">
         <input type="hidden" id="urun_id" name="urun_id" value='{{urun["_id"]}}'>
         <button type="submit" class="btn btn-block btn-primary text-uppercase">Sepete Ekle</button>
       </form>
-    </div>
-  </div>
+
+              </div>
+              <!--Card content-->
+
+            </div>
+            <!--Card-->
+
+          </div>
+
+
+
   {%endfor%}
 
 
   </div>
-
 
 
 </div>
