@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <title>Manav</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+<!-- Links -->
+  <ul class="navbar-nav">
+      <!-- Navbar text-->
+    <li class="nav-item">
+      <a class="nav-link active" href="/">Manavım</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/sebzeler">Sebzeler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/meyveler">Meyveler</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" href="/kategori/yesillikler">Yeşillikler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/sepet">Sepet</a>
+    </li>
+    {% if kullanici['rol'] == 'yonetici' %}
+    <li class="nav-item">
+      <a class="nav-link" href="/uruntanimla">Ürün Tanımla</a>
+    </li>
+    {% endif %}
+
+
+  </ul>
+  {% if kullanici %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/cikis"> Merhaba {{kullanici['ad']}} - Çıkış yap</a>
+    </li>
+  </ul>
+  {% else %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/giris"> Kullanıcı Girişi</a>
+    </li>
+  </ul>
+  {% endif %}
+</nav>
+
+
+
+
+
+
+
+<div class="container-fluid">
+
+  <h1>Önerilen Ürünler</h1>
+
+  <div class="card-columns">
+
+  {%for urun in urunler%}
+  <div class="card" style="width:260px">
+    <img class="card-img-top" style="height:220px" src='{{urun["fotograf"]}}' alt="Ürün">
+    <div class="card-body">
+      <h4 class="card-title">{{urun["ad"]}}</h4>
+      <p class="card-text"><b>{{urun["aciklama"]}}</b></p>
+      <p class="card-text">Stok durumu: {{urun["stok"]}} {{urun["stok_birim"]}}</p>
+      <p>Fiyat: {{urun["fiyat"]}}₺ </p>
+      <form action="/sepeteekle" method="post">
+        <input type="hidden" id="urun_id" name="urun_id" value='{{urun["_id"]}}'>
+        <button type="submit" class="btn btn-block btn-primary text-uppercase">Sepete Ekle</button>
+      </form>
+    </div>
+  </div>
+  {%endfor%}
+
+
+  </div>
+
+
+
+</div>
+
+
+
+
+</body>
+</html>

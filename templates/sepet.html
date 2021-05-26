@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <title>Manav</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+<!-- Links -->
+  <ul class="navbar-nav">
+      <!-- Navbar text-->
+    <li class="nav-item">
+      <a class="nav-link active" href="/">Manavım</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/sebzeler">Sebzeler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/kategori/meyveler">Meyveler</a>
+    </li>
+      <li class="nav-item">
+      <a class="nav-link" href="/kategori/yesillikler">Yeşillikler</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/sepet">Sepet</a>
+    </li>
+    {% if kullanici['rol'] == 'yonetici' %}
+    <li class="nav-item">
+      <a class="nav-link" href="/uruntanimla">Ürün Tanımla</a>
+    </li>
+    {% endif %}
+
+
+  </ul>
+  {% if kullanici %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/cikis"> Merhaba {{kullanici['ad']}} - Çıkış yap</a>
+    </li>
+  </ul>
+  {% else %}
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/giris"> Kullanıcı Girişi</a>
+    </li>
+  </ul>
+  {% endif %}
+</nav>
+
+
+
+
+<div class="container-fluid">
+    <h1>Sepet</h1>
+
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Ürün</th>
+        <th>Açıklama</th>
+        <th>Fiyat</th>
+        <th>-</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for urun in sepet_urunleri %}
+      <tr>
+        <td>{{urun["urun"]["ad"]}}</td>
+        <td>{{urun["urun"]["aciklama"]}}</td>
+        <td>{{urun["urun"]["fiyat"]}}₺</td>
+        <td>
+          <form action="/sepettencikar" method="post">
+              <input type="hidden" id="_id" name="_id" value='{{urun["_id"]}}'>
+              <button type="submit" class="btn"><i class="fas fa-trash"></i></button>
+            </form>
+
+        </td>
+      </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+
+  <a href="/satinal" class="btn btn-primary btn-block">Satın Al</a>
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
