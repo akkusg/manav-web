@@ -69,7 +69,8 @@ def sepete_ekle():
     urun_id = request.form.get('urun_id')
     urun = urunler_tablosu.find_one({"_id": urun_id})
 
-    sepet_urunu = {"kullanici": kullanici_bilgisi["_id"], "urun": urun}
+    sepet_urunu = urun
+    sepet_urunu["kullanici"] = kullanici_bilgisi["_id"]
     kaydedilmis = sepet_urunleri_tablosu.insert_one(sepet_urunu)
     print(kaydedilmis.inserted_id)
     return redirect("/sepet", code=302)
@@ -94,7 +95,7 @@ def sepet():
         return redirect("/giris", code=302)
     else:
         kullanici = session["kullanici"]
-        sepet_urunleri = sepet_urunleri_tablosu.find({"kullanici": kullanici["_id"]})
+        sepet_urunleri = list(sepet_urunleri_tablosu.find({"kullanici": kullanici["_id"]}))
         return render_template("sepet.html", kullanici=kullanici, sepet_urunleri=sepet_urunleri)
 
 
@@ -126,6 +127,18 @@ def urun_tanimla():
         else:
             kullanici = session["kullanici"]
         return render_template("uruntanimla.html", kullanici=kullanici)
+
+
+@app.route('/uyeol', methods=['GET', 'POST'])
+def uye_ol():
+    if request.method == 'POST':
+        kayit = dict(request.form)
+        kayit["_id"] = kayit["email"]
+        kayit["rol"] = "musteri"
+        kullanicilar_tablosu.insert_one(kayit)
+        return redirect("/giris", code=302)
+    else:
+        return render_template("uyeol.html")
 
 
 if __name__ == "__main__":

@@ -67,7 +67,7 @@
       <tr>
         <th>Ürün</th>
         <th>Açıklama</th>
-        <th>Fiyat</th>
+        <th style="text-align:right">Fiyat</th>
         <th>-</th>
       </tr>
     </thead>
@@ -75,11 +75,11 @@
     {%for urun in sepet_urunleri %}
       <tr>
         <td>
-          <img src='{{urun["urun"]["fotograf"]}}' width="80px" height="60px">
-          {{urun["urun"]["ad"]}}
+          <img src='{{urun["fotograf"]}}' width="80px" height="60px">
+          {{urun["ad"]}}
         </td>
-        <td>{{urun["urun"]["aciklama"]}}</td>
-        <td>{{urun["urun"]["fiyat"]}}₺</td>
+        <td>{{urun["aciklama"]}}</td>
+        <td style="text-align:right">{{urun["fiyat"]}}₺</td>
         <td>
           <form action="/sepettencikar" method="post">
               <input type="hidden" id="_id" name="_id" value='{{urun["_id"]}}'>
@@ -89,6 +89,12 @@
         </td>
       </tr>
     {%endfor%}
+    <tr>
+      <td colspan="3" style="text-align:right">
+        Toplam: {{ sepet_urunleri|sum(attribute='fiyat') }}
+      </td>
+      <td>&nbsp;</td>
+    </tr>
     </tbody>
   </table>
 
