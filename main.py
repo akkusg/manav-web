@@ -69,7 +69,8 @@ def sepete_ekle():
     urun_id = request.form.get('urun_id')
     urun = urunler_tablosu.find_one({"_id": urun_id})
 
-    sepet_urunu = urun
+    sepet_urunu = dict(urun)
+    del sepet_urunu["_id"]
     sepet_urunu["kullanici"] = kullanici_bilgisi["_id"]
     kaydedilmis = sepet_urunleri_tablosu.insert_one(sepet_urunu)
     print(kaydedilmis.inserted_id)
