@@ -71,10 +71,12 @@ def sepete_ekle():
 
     sepet_urunu = dict(urun)
     del sepet_urunu["_id"]
+    sepet_urunu["urun_id"] = urun_id
     sepet_urunu["kullanici"] = kullanici_bilgisi["_id"]
     kaydedilmis = sepet_urunleri_tablosu.insert_one(sepet_urunu)
     print(kaydedilmis.inserted_id)
     return redirect("/sepet", code=302)
+
 
 @app.route('/sepettencikar', methods=['POST'])
 def sepetten_cikar():
