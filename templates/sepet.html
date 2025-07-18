@@ -32,7 +32,7 @@
     <li class="nav-item">
       <a class="nav-link active" href="/sepet">Sepet</a>
     </li>
-    {% if kullanici['rol'] == 'yonetici' %}
+    {% if kullanici and kullanici['rol'] == 'yonetici' %}
     <li class="nav-item">
       <a class="nav-link" href="/uruntanimla">Ürün Tanımla</a>
     </li>
