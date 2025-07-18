@@ -1,13 +1,15 @@
 import base64
 import datetime
+import os
 from flask import Flask, render_template, request, redirect, session
 import pymongo
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
-app.secret_key = 'bizim cok zor gizli sozcugumuz'
+app.secret_key = os.environ.get("MANAV_SECRET_KEY", "bizim cok zor gizli sozcugumuz")
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+db_uri = os.environ.get("MANAV_DB_URI", "mongodb://localhost:27017/")
+myclient = pymongo.MongoClient(db_uri)
 mydb = myclient["manavDB"]
 kullanicilar_tablosu = mydb["kullanicilar"]
 urunler_tablosu = mydb["urunler"]
